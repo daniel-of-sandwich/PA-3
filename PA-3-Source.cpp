@@ -68,7 +68,25 @@ int fibR(int n)
 }
 
 // TODO: Implement DP Algorithm
-int fibDP(int n)
+
+int fibDP(int maxNum) 
 {
-    return -1;
+    int fib1 = 0;
+    int fib2 = 1;
+    int sum;
+   
+    std::cout << "1: " << fib2 << "\n"; // Displaying first number, then will begin addition iteration
+    if(maxNum == 1 || maxNum == 0){
+        return 1;
+    }
+    else{
+     for (int i = 0; i < maxNum - 1; i++) {
+        sum = fib1 + fib2;
+       // std::cout << i + 2 << ": " << fib1 << " + " << fib2 << " = " << sum << "\n";
+        fib1 = fib2; // changes the first num to the latest
+        fib2 = sum; // changes the second num to the newest
+     }
+    return sum;
+    }
 }
+
