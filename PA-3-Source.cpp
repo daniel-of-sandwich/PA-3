@@ -6,7 +6,7 @@
 #include <fstream>      // for outputing text to csv files
 #include <chrono>       // for measuring time intervals
 #include <math.h>       // for rounding and calculating logarithms
-#include <string>
+#include <string>       // for manipulating strings
 using namespace std;
 
 ofstream fout;                          // outputs to open file
@@ -45,20 +45,20 @@ int main()
 
         // Ensures input is either 1 or 2.
         switch (method) {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                cout << "Exiting.\n";
-                return 0;
-            default:
-                cout << "Invalid input.\n";
-                method = -1;
-                continue;
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            cout << "Exiting.\n";
+            return 0;
+        default:
+            cout << "Invalid input.\n";
+            method = -1;
+            continue;
         }
 
-        cout << "Enter the desired non-negative Fibonacci number (input \"..\" to exit)\n"
+        cout << "Enter the desired non-negative Fibonacci number (input \"..\" to exit).\n"
             "(Note that input '0' will return the first value in the Fibonacci sequence, input '1' the second, and so forth).\n";
         fibNum = -1;
 
@@ -81,17 +81,17 @@ int main()
             // If fibNum = -1, that means the input was invalid somehow.
             // Otherwise, run the program.
             switch (fibNum) {
-                case -1:
-                    cout << "Invalid input.\n";
-                    break;
-                default:
-                    method == 1 ?
-                        cout << "Fibonacci number " << fibNum << " is " << fibR(fibNum) << "\n" :   // method == 1
-                        cout << "Fibonacci number " << fibNum << " is " << fibDP(fibNum) << "\n";   // method == 2
-                    fibNum = -1;
-                    break;
+            case -1:
+                cout << "Invalid input.\n";
+                break;
+            default:
+                method == 1 ?
+                    cout << "Fibonacci number " << fibNum << " is " << fibR(fibNum) << "\n" :   // method == 1
+                    cout << "Fibonacci number " << fibNum << " is " << fibDP(fibNum) << "\n";   // method == 2
+                fibNum = -1;
+                break;
             }
-        }   
+        }
     }
     return 0;
 }
@@ -109,7 +109,7 @@ int fibR(int n)
 // Dynamic Programming algorithm.
 int fibDP(int maxNum)
 {
-    int fib1 = 0;
+    int fib1 = 1;
     int fib2 = 1;
     int sum;
 
@@ -117,7 +117,7 @@ int fibDP(int maxNum)
         return 1;
     }
     else {
-        for (int i = 0; i < maxNum; i++) { //FIXED Now should return the same value as Recursive
+        for (int i = 0; i < maxNum - 1; i++) {
             sum = fib1 + fib2;
             fib1 = fib2; // changes the first num to the latest
             fib2 = sum; // changes the second num to the newest
@@ -133,7 +133,7 @@ void sheet() {
     int result = -1;    // Stores algorithm calculations
     int timeR = -1;     // Time for recursive algorithm
     int timeDP = -1;    // Time for dp algorithm
-    
+
     fout.open("Fibonacci_Time.csv");
     fout << "n,"
         << "F(n),"
@@ -154,6 +154,8 @@ void sheet() {
         result = fibDP(values[i]);
         t2 = chrono::steady_clock::now();
         timeDP = std::chrono::duration_cast<std::chrono::duration<int64_t, std::ratio<1, 1000000000/*nanoseconds*/>>>(t2 - t1).count();
+        cout << "timeDP: " << timeDP << "\n"; // FIXME delete
+        if (timeDP == 0) { timeDP = 100; } // if timeDP is 0 nanoseconds, avoids division by 0
 
         // Format results to spreadsheet.
         fout << values[i] << ","
