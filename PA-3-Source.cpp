@@ -117,7 +117,7 @@ int fibDP(int maxNum)
         return 1;
     }
     else {
-        for (int i = 0; i < maxNum - 1; i++) {
+        for (int i = 0; i < maxNum; i++) { //FIXED Now should return the same value as Recursive
             sum = fib1 + fib2;
             fib1 = fib2; // changes the first num to the latest
             fib2 = sum; // changes the second num to the newest
